@@ -14,9 +14,9 @@ class LiveRTC extends EventEmitter {
   // 房间名
   private roomAlias: string = ''
   private socket: WebSocket | null = null
-  private localPeerConn: any = null
+  private localPeerConn: RTCPeerConnection | null = null
   //保存所有与本地相连的peer connection， 键为socket id，值为PeerConnection类型
-  private peerConnections: Map<string, any> = new Map()
+  private peerConnections: Map<string, RTCPeerConnection> = new Map()
   // 保存本地socketId和所有对方的socketId
   private socketId: string = ''
   private connSocketIds: string[] = []
@@ -35,9 +35,8 @@ class LiveRTC extends EventEmitter {
   }
 
   /**
-   * @param
-   * wsUrl : websocket url
-   * room : room id
+   * @param wsUrl : websocket url
+   *
    */
   connect(wsUrl: string) {
     const that = this
@@ -64,6 +63,54 @@ class LiveRTC extends EventEmitter {
     }
   }
 
+  public attachStream(videoEl: HTMLVideoElement) {
+    this.localPeerConn!.ontrack = async (event: any) => {
+      console.log('ontrack steams', event.streams)
+
+      const [remoteStream] = event.streams
+      videoEl.srcObject = remoteStream
+    }
+  }
+
+  public createPeerConnection(): RTCPeerConnection {
+    const that = this
+    const pc = new PeerConnection(configuration)
+    pc.onicecandidate = (event: any) => {
+      if (event.candidate) {
+        const roomSocketEvent: RoomSocketEvent = {
+          eventName: '__ice_candidate',
+          data: {
+            socketId: that.socketId,
+            candidate: event.candidate
+          }
+        }
+        that.socket!.send(JSON.stringify(roomSocketEvent))
+      }
+    }
+    pc.onconnectionstatechange = () => {
+      if (pc.connectionState === 'connected') {
+        console.log('connected')
+      }
+    }
+    return pc
+  }
+
+  public createLocalPeerConnection(): RTCPeerConnection {
+    const that = this
+
+    return that.createPeerConnection()
+  }
+
+  public createRemotePeerConnections(socketIds: string[]): Map<string, RTCPeerConnection> {
+    const that = this
+    const pcs: Map<string, RTCPeerConnection> = new Map()
+    for (const socketId of socketIds) {
+      const pc = that.createPeerConnection()
+      pcs.set(socketId, pc)
+    }
+    return pcs
+  }
+
   public handleMessage(message: string) {
     console.log(message)
   }
@@ -75,8 +122,10 @@ class LiveRTC extends EventEmitter {
     that.roomAlias = roomA
     that.socketId = mySocketId
     that.connSocketIds = connSocketIds
-    that.localPeerConn = new RTCPeerConnection(configuration)
-    const offer: RTCSessionDescription = await that.localPeerConn.createOffer()
+    that.localPeerConn = that.createLocalPeerConnection()
+    that.peerConnections = that.createRemotePeerConnections(that.connSocketIds)
+
+    const offer: RTCSessionDescriptionInit = await that.localPeerConn.createOffer()
     await that.localPeerConn.setLocalDescription(offer)
     const roomSocketEvent: RoomSocketEvent = {
       eventName: '__offer',

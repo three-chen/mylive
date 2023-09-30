@@ -1,13 +1,22 @@
 <script setup lang="ts">
+import { useVideoStore } from '@/stores/video';
+import { onMounted, ref } from 'vue';
+
+const videoMedia = ref(null);
+const videoStore = useVideoStore();
+
+onMounted(() => {
+    videoStore.setVideoElement(videoMedia.value);
+})
 </script>
 
 <template>
     <div class="mediaBox">
-        <video class="media"></video>
+        <video class="media" ref="videoMedia"></video>
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .mediaBox {
     width: 70%;
     height: 80%;
