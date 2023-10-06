@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
 
-import MyHeaderVue from '@/components/MyHeader.vue';
+import MyHeaderVue from '@/components/header/MyHeader.vue';
 
 </script>
 
@@ -13,7 +13,7 @@ import MyHeaderVue from '@/components/MyHeader.vue';
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .box {
   display: flex;
   flex-direction: column;

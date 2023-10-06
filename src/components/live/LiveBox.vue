@@ -1,18 +1,23 @@
 <script setup lang="ts">
 import LiveRTC from '@/liveRTC';
+import { useRTCStore } from '@/stores/rtc';
 import { watch } from 'vue';
 import LiveChat from './LiveChat.vue';
 import LiveMedia from './LiveMedia.vue';
 
-import { useVideoStore } from '@/stores/video';
-const videoStore = useVideoStore()
+const rtcStroe = useRTCStore();
 
 const url = 'ws://localhost:3000'
 const liveRTC = new LiveRTC()
-liveRTC.connect(url)
-watch(videoStore, () => {
-    if (videoStore.videoElement) {
-        liveRTC.attachStream(videoStore.videoElement)
+window.addEventListener('pagehide', () => liveRTC.disconnect())
+
+let times = 0;
+watch(rtcStroe, () => {
+    times++;
+    if (rtcStroe.mediaBoxElement && rtcStroe.chatBoxElement && times === 1) {
+
+        liveRTC.attachBox(rtcStroe.mediaBoxElement, rtcStroe.chatBoxElement)
+        liveRTC.connect(url)
     }
 })
 </script>
@@ -28,7 +33,5 @@ watch(videoStore, () => {
 .liveBox {
     height: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
 }
 </style>

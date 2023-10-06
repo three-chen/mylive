@@ -11,7 +11,7 @@ class EventEmitter {
     this.callback[eventName].push(listener)
   }
 
-  public emit(eventName: string, args: any[]): void {
+  public emit(eventName: string, args?: any[]): void {
     const eventCallback = this.callback[eventName]
     if (eventCallback) {
       eventCallback.forEach((callback: Function) => callback.apply(this.LiveRTCenv, args))

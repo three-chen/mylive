@@ -6,7 +6,7 @@ interface DataInfo {
   connSocketIds?: string[] //所有对方连接的socketId数组
   offer?: any //sdp offer
   answer?: any //sdp answer
-  candidate?: any // ice candidate
+  iceCandidate?: any // ice candidate
 }
 
 export default interface RoomSocketEvent {

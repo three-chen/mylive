@@ -1,33 +1,34 @@
 <script setup lang="ts">
-import { useVideoStore } from '@/stores/video';
+import { useRTCStore } from '@/stores/rtc';
 import { onMounted, ref } from 'vue';
 
 const videoMedia = ref(null);
-const videoStore = useVideoStore();
+const rtcStroe = useRTCStore();
 
 onMounted(() => {
-    videoStore.setVideoElement(videoMedia.value);
+    rtcStroe.setMediaBoxElement(videoMedia.value);
 })
+
 </script>
 
 <template>
-    <div class="mediaBox">
-        <video class="media" ref="videoMedia"></video>
+    <div class="mediaBox" ref="videoMedia">
     </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .mediaBox {
     width: 70%;
-    height: 80%;
-    aspect-ratio: 16/9;
-    min-width: 668px;
-    min-height: 376px;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
 
-    .media {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+    .video {
+        --n: 3;
+        --gap: calc((100% - var(--n) * 300px) / (var(--n)) / 2);
+        width: 300px;
+        height: 225px;
+        margin: 2rem var(--gap);
     }
 }
 </style>

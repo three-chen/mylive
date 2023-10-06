@@ -8,10 +8,10 @@ import LiveBox from '@/components/live/LiveBox.vue';
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .box {
   width: 100%;
   height: calc(100vh - 80px);
-  background-color: black;
+  background-color: #fff;
 }
 </style>
