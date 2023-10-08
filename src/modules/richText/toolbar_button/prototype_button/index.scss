@@ -1,0 +1,64 @@
+.richText-toolbar-button {
+  position: relative;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 4px;
+  padding: 4px;
+  display: flex;
+  justify-content: center;
+
+  &:active {
+    background-color: #c8cbcf;
+  }
+
+  .richText-toolbar-button-input {
+    display: none;
+  }
+
+  .richText-toolbar-button-tooltip {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #c8cbcf;
+    color: black;
+    padding: 2px;
+    border-radius: 4px;
+    width: fit-content;
+    min-width: 100%;
+    height: fit-content;
+    transition: opacity ease-in-out 0.3s, top ease-in-out 0.3s;
+  }
+
+  .richText-toolbar-button-tooltip-inactive {
+    opacity: 0;
+    top: 0%;
+  }
+
+  .richText-toolbar-button-tooltip-active {
+    opacity: 1;
+    top: -100%;
+  }
+
+  .richText-toolbar-button-icon {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    padding: 4px;
+
+    svg {
+      --rt-color: #7c7c7c;
+      color: var(--rt-color);
+    }
+  }
+}
+
+.richText-toolbar-button-hover {
+  background-color: #dee0e2;
+}
+
+// .richText-toolbar-button-active {
+//   background-color: #c8cbcf;
+// }

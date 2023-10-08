@@ -33,7 +33,7 @@ class LiveRTC extends EventEmitter {
   }
 
   public init() {
-    this.on('message', this.handleMessage)
+    this.on('_message', this.handleMessage)
     this.on('_joined', this.handleJoined)
     this.on('_new_peer', this.handleNewPeer)
     this.on('_ready', this.handleReady)
@@ -230,8 +230,22 @@ class LiveRTC extends EventEmitter {
     }
   }
 
-  public handleMessage(message: string) {
-    console.log(message)
+  public sendMessage(message: string) {
+    const that = this
+    const roomSocketEvent: RoomSocketEvent = {
+      eventName: '__message',
+      data: {
+        message: message
+      }
+    }
+
+    that.socket!.send(JSON.stringify(roomSocketEvent))
+  }
+
+  public handleMessage(userName: string, message: string) {
+    const div = document.createElement('div')
+    div.innerHTML = `<div>${userName}说：</div><div>${message}</div>`
+    this.localChatBox!.appendChild(div)
   }
 
   /**

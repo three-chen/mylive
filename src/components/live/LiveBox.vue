@@ -9,6 +9,9 @@ const rtcStroe = useRTCStore();
 
 const url = 'ws://localhost:3000'
 const liveRTC = new LiveRTC()
+rtcStroe.setLiveRTC(liveRTC)
+console.log('liveRTC', rtcStroe.liveRTC);
+
 window.addEventListener('pagehide', () => liveRTC.disconnect())
 
 let times = 0;

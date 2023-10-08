@@ -1,0 +1,28 @@
+.richText-editor {
+    flex: 1;
+    width: 100%;
+    min-height: calc(100% - 40px);
+    height: fit-content;
+    background-color: #f4f4f4;
+    outline: none;
+    padding: .5rem;
+
+    ul {
+        list-style-type: disc;
+        padding-left: 2rem;
+
+        li {
+            --tw-text-opacity: 1;
+            list-style: disc;
+            color: rgb(64 72 100/var(--tw-text-opacity));
+            font-size: 1rem;
+            line-height: 1.5rem;
+        }
+    }
+
+    img {
+        border-radius: .25rem;
+        max-width: 100%;
+        height: auto;
+    }
+}
