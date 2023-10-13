@@ -19,6 +19,7 @@ import SearchHeader from './SearchHeader.vue';
     width: 100%;
     display: flex;
     align-items: center;
+    justify-content: space-around;
     background-color: #fff;
     border-bottom: solid 1px #e5e5e5;
 }

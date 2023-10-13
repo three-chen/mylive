@@ -4,7 +4,10 @@
 <template>
     <ul class="leftHeader">
         <ul class="feature">音乐</ul>
-        <ul class="feature">视频聊天室</ul>
+        <router-link to="/webrtc/home">
+            <ul class="feature">视频聊天室</ul>
+        </router-link>
+
         <ul class="feature">直播</ul>
     </ul>
 </template>
