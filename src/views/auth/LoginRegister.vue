@@ -1,10 +1,16 @@
 <script setup lang="ts">
-import { postRegisterInfo } from '@/service/api/auth/postRegister'
-import type RegisterInfo from '@/service/data/auth/RegisterInfo';
-import { postLoginInfo } from '@/service/api/auth/postLogin'
+import { postLoginInfo } from '@/service/api/auth/postLogin';
+import { postRegisterInfo } from '@/service/api/auth/postRegister';
 import type LoginInfo from '@/service/data/auth/LoginInfo';
+import type RegisterInfo from '@/service/data/auth/RegisterInfo';
 
+import type R from '@/service/data/R';
+import type LoginR from '@/service/data/auth/loginR';
 import { ref } from 'vue';
+
+import { useUserStore } from '@/stores/user';
+
+const userStore = useUserStore()
 
 const loginEmail = ref('')
 const loginPass = ref('')
@@ -18,9 +24,10 @@ function login() {
         email: loginEmail.value,
         password: loginPass.value
     }
-    postLoginInfo(loginInfo).then((res: any) => {
-        console.log(res);
-    }).catch((err: any) => {
+    postLoginInfo(loginInfo).then((res: R<LoginR>) => {
+        userStore.setUser(res.data!)
+        alert("登录成功")
+    }).catch((err: R<LoginR>) => {
         console.log(err);
     })
 }
@@ -31,8 +38,9 @@ function register() {
         password: registerPass.value,
         email: registerEmail.value
     }
-    postRegisterInfo(userInfo).then((res: any) => {
+    postRegisterInfo(userInfo).then((res) => {
         console.log(res);
+        alert("注册成功")
     }).catch((err: any) => {
         console.log(err);
     })
