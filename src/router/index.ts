@@ -19,11 +19,11 @@ const router = createRouter({
         },
       ],
     },
-    {
-      path: '/webrtc/:room',
-      name: 'webrtcRoom',
-      component: () => import('@/views/LiveHome.vue'),
-    },
+    // {
+    //   path: '/webrtc/:room',
+    //   name: 'webrtcRoom',
+    //   component: () => import('@/views/LiveHome.vue'),
+    // },
   ]
 })
 

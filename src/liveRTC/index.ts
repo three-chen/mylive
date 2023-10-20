@@ -68,10 +68,10 @@ class LiveRTC extends EventEmitter {
       that.socket!.ws.send(JSON.stringify(roomSocketEvent))
     }
 
-    that.socket.ws.onmessage = (e) => {
+    that.socket.ws.addEventListener("message", (e) => {
       const roomSocketEvent: RoomSocketEvent = JSON.parse(e.data)
       that.emit(roomSocketEvent.eventName, getObjectValues(roomSocketEvent.data))
-    }
+    })
 
     that.socket.ws.onclose = () => {
       console.log('websocket closed')
@@ -80,8 +80,6 @@ class LiveRTC extends EventEmitter {
 
   public handleAddStream(socketIds: string[]) {
     const that = this
-
-    console.log('handleAddStream', 'param', socketIds, 'actual', that.connSocketIds)
 
     if (that.localStream && socketIds) {
       // 拿到remotePeerConn中的socketIds对应的peerConns
@@ -206,8 +204,6 @@ class LiveRTC extends EventEmitter {
         }
       }
 
-      console.log('sendOffer', socketId, roomSocketEvent)
-
       that.socket!.ws.send(JSON.stringify(roomSocketEvent))
     }
   }
@@ -227,8 +223,6 @@ class LiveRTC extends EventEmitter {
           answer: answer
         }
       }
-
-      console.log('sendAnswer', socketId, roomSocketEvent)
 
       that.socket!.ws.send(JSON.stringify(roomSocketEvent))
     }
@@ -280,8 +274,6 @@ class LiveRTC extends EventEmitter {
     const rpc = that.createPeerConnection(socketId)
     that.remotePeerConn!.set(socketId, rpc)
 
-    console.log('handleNewPeer', socketId)
-
     that.emit('_add_stream', [socketId])
   }
 
@@ -317,8 +309,6 @@ class LiveRTC extends EventEmitter {
     const that = this
     const rpc = that.remotePeerConn!.get(socketId)
     rpc!.setRemoteDescription(offer)
-
-    console.log('handleOffer', socketId, offer)
 
     that.sendAnswer([socketId])
   }
@@ -371,6 +361,8 @@ class LiveRTC extends EventEmitter {
   public handleHeartBeat(pong: string) {
     const that = this
     that.socket!.resetHeartBeat()
+    console.log("heart beat", pong);
+
   }
 }
 

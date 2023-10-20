@@ -6,6 +6,9 @@ import type RegisterInfo from '@/service/data/auth/RegisterInfo';
 
 import type R from '@/service/data/R';
 import type LoginR from '@/service/data/auth/loginR';
+
+import { authRenderRouter } from '@/service/auth/index'
+
 import { ref } from 'vue';
 
 import { useUserStore } from '@/stores/user';
@@ -27,6 +30,7 @@ function login() {
     postLoginInfo(loginInfo).then((res: R<LoginR>) => {
         userStore.setUser(res.data!)
         alert("登录成功")
+        authRenderRouter(res.data!.auth)
     }).catch((err: R<LoginR>) => {
         console.log(err);
     })

@@ -1,3 +1,5 @@
+import type AuthR from "./authR";
+
 export default interface LoginR {
     /**
      * 用户名
@@ -11,4 +13,8 @@ export default interface LoginR {
      * jwt
      */
     token: string;
+    /**
+     * 用户权限
+     */
+    auth: AuthR
 }
