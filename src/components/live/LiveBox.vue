@@ -1,14 +1,18 @@
 <script setup lang="ts">
 import LiveRTC from '@/liveRTC';
-import { useRTCStore } from '@/stores/rtc';
 import { watch } from 'vue';
 import LiveChat from './LiveChat.vue';
 import LiveMedia from './LiveMedia.vue';
 
+import { useUserStore } from '@/stores/user';
+const userStore = useUserStore();
+import { useRTCStore } from '@/stores/rtc';
 const rtcStroe = useRTCStore();
 
+const props = defineProps(['room'])
 const url = 'ws://localhost:3000'
-const liveRTC = new LiveRTC()
+
+const liveRTC = new LiveRTC(props.room, userStore.user.userInfo.username)
 rtcStroe.setLiveRTC(liveRTC)
 console.log('liveRTC', rtcStroe.liveRTC);
 

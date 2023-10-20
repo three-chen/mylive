@@ -6,7 +6,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      redirect: '/webrtc/home'
+      redirect: '/auth/login'
     },
     {
       path: '/auth',
@@ -20,15 +20,9 @@ const router = createRouter({
       ],
     },
     {
-      path: '/webrtc',
-      name: 'webrtc',
-      redirect: '/webrtc/home',
-      children: [
-        {
-          path: 'home',
-          component: () => import('@/views/LiveHome.vue'),
-        },
-      ],
+      path: '/webrtc/:room',
+      name: 'webrtcRoom',
+      component: () => import('@/views/LiveHome.vue'),
     },
   ]
 })

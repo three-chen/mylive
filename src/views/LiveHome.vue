@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import LiveBox from '@/components/live/LiveBox.vue';
+import router from '@/router'
+
 </script>
 
 <template>
   <div class="box">
-    <LiveBox />
+    <LiveBox :room="router.currentRoute.value.params.room" />
   </div>
 </template>
 
